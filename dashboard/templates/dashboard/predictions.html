@@ -1,0 +1,36 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content  %}
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-md-8 offset-md-2">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Buying</th>
+                    <th scope="col">Maintenance</th>
+                    <th scope="col">Doors</th>
+                    <th scope="col">Persons</th>
+                    <th scope="col">Lug_boot</th>
+                    <th scope="col">Safety</th>
+                    <th scope="col">Predictions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for data in car_info %}
+                  <tr>
+                    <td>{{ data.buying }}</td>
+                    <td>{{ data.maint }}</td>
+                    <td>{{ data.doors }}</td>
+                    <td>{{ data.persons }}</td>
+                    <td>{{ data.lug_boot }}</td>
+                    <td>{{ data.safety }}</td>
+                    <td>{{ data.predictions }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

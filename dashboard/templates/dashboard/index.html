@@ -1,0 +1,29 @@
+{% extends 'dashboard/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+	{% block content %}
+<!-- <section class="ftco-section img bg-hero" style="background-image: url( {% static 'dashboard/img/bg_1.jpg' %} );"> -->
+
+	<div class="container mt-5 pt-4 col-8">
+		<form action="" method="POST">
+			{% csrf_token %}
+            {{form|crispy}}
+			<div class="container mt-3">
+				{% for message in messages %}
+						<div class=" alert alert-{{message.level_tag}}" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						  </button>
+					  <h2 class="bg-faded font-weight-bold">{{message}}</h2>
+					</div>
+				{% endfor %} 				
+			</div>			
+		
+			<button class="btn btn-info btn-block">Check For car class</button>
+		</form>
+		
+		
+	</div>
+</section>
+	{% endblock %}
