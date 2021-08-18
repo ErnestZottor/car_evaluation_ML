@@ -17,43 +17,43 @@ svm = joblib.load(model_file)
 
 # Create your views here.
 BUYING = {
-    3 : 'v-high',
-    2 : 'high',
-    1 : 'med',
-    0 :'low'
+    '3' : 'v-high',
+    '2' : 'high',
+    '1' : 'med',
+    '0' :'low'
     }
 
 MAINT = {
-    3 : 'v-high',
-    2 : 'high',
-    1 : 'med',
-    0 :'low'
+    '3' : 'v-high',
+    '2' : 'high',
+    '1' : 'med',
+    '0' :'low'
 }
 
 DOORS = {
-    3 :'5-more',
-    2 :'4',
-    1 : '3',
-    0 :'2'
+    '3' :'5-more',
+    '2' :'4',
+    '1' : '3',
+    '0' :'2'
 }
 
 PERSON = {
-    2 : 'more',
-    1 : '4',
-    0 : '2'
+    '2' : 'more',
+    '1' : '4',
+    '0' : '2'
     }
 
 LUG_BOOT ={
-    2 : 'big',
-    1 : 'med',
-    0 : 'small'
+    '2' : 'big',
+    '1' : 'med',
+    '0' : 'small'
 }
 
 
 SAFETY = {
-    2 : 'high',
-    1 : 'med',
-    0 : 'low'
+    '2' : 'high',
+    '1' : 'med',
+    '0' : 'low'
 }
 
 
@@ -88,20 +88,18 @@ def site(request):
                 messages.warning(request, checker)
             elif (checker == 1):
                 checker = 'Acceptable'
-                messages.success(request, checker)
+                messages.info(request, checker)
 
             elif (checker == 2):
                 checker = 'Good'
-                messages.success(request, checker)
+                messages.info(request, checker)
 
             else:
                 checker = 'Very Good'
                 messages.success(request, checker)
-            # if form.is_valid():
             if not request.user.is_authenticated:
                 return redirect('login')
             obj = form.save(commit=False)
-            convert_form_values(obj,buying,maint,doors,persons,lug_boot,safety)
             obj.predictions = checker
             obj.save()
     else:
@@ -113,7 +111,14 @@ def site(request):
 
 @login_required
 def predictions(request):
-    car_info = CarEvaluation.objects.all()
+    car_info = CarEvaluation.objects.values()
+    for obj in car_info:
+        obj['buying']= BUYING[obj['buying']]
+        obj['maint']= MAINT[obj['maint']]
+        obj['doors']= DOORS[obj['doors']]
+        obj['persons']= PERSON[obj['persons']]
+        obj['lug_boot']= LUG_BOOT[obj['lug_boot']]
+        obj['safety']= SAFETY[obj['safety']]
     context = {
         'car_info': car_info
     }
@@ -131,10 +136,3 @@ def register(request):
         form = UserRegisterForm()
     return render(request, 'dashboard/register.html', {'form': form})
 
-def convert_form_values(form, buying, maint, doors, person, lug_boot, safety):
-    form.buying = BUYING[buying]
-    form.maint = MAINT[maint]
-    form.doors = DOORS[doors]
-    form.persons = PERSON[person]
-    form.lug_boot = LUG_BOOT[lug_boot]
-    form.safety = SAFETY[safety]
