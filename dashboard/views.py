@@ -92,11 +92,11 @@ def site(request):
 
             elif (checker == 2):
                 checker = 'Good'
-                messages.warning(request, checker)
+                messages.success(request, checker)
 
             else:
                 checker = 'Very Good'
-                messages.warning(request, checker)
+                messages.success(request, checker)
             # if form.is_valid():
             if not request.user.is_authenticated:
                 return redirect('login')
@@ -127,11 +127,10 @@ def register(request):
         if form.is_valid():
             form.save()
             messages.success(request, f'Your account has been created! You are now able to log in')
-            return redirect('home')
+            return redirect('login')
     else:
         form = UserRegisterForm()
     return render(request, 'dashboard/register.html', {'form': form})
-
 
 def convert_form_values(form, buying, maint, doors, person, lug_boot, safety):
     form.buying = BUYING[buying]
