@@ -1,20 +1,16 @@
 <li><a href="/"><i class="material-icons left">home</i>Home</a></li>
 
 {% if user.is_authenticated %}
-
+    {% if user.is_superuser%}
     <li>                         
-        <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>{{user.username}}</a>
-
-        <ul id='dropdown1' class='dropdown-content'>
-            <li><a href="/account">Account</a></li>
-            <li><a href="#!">Network</a></li>
-            <li class="divider" tabindex="-1"></li>
-            <li><a href="#!">Setting</a></li>
-            <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
-            <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
-            </ul>
+        <a class='dropdown-trigger btn' href='/admin' data-target='dropdown1'>Admin</a>
     </li>
-    <li>                         <!-- Dropdown Trigger -->
+    {% else %}
+    <li>
+        <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>{{user.username}}</a>
+    </li>
+    {% endif %}
+    <li>                        
         <a class='dropdown-trigger btn' href='/predictions' data-target='dropdown1'>Predictions</a>
     </li>
     <li><a href="/logout" class="waves-effect waves-light btn orange darken-4
